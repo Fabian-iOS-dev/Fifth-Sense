@@ -4,9 +4,9 @@ import random
 
 random.seed(300)
 batch_size = 16
-width = 300
-height = 300
-dataset = 'normal_ds'
+width = 224
+height = 224
+dataset = 'ds_normal'
 
 def main():
 
@@ -17,13 +17,13 @@ def main():
             zoom_range=0.2,
             width_shift_range=0.3,
             height_shift_range=0.3,
-            horizontal_flip=True)
+            horizontal_flip=True,)
 
     train_pics = train_gen.flow_from_directory(
             dataset + '/train',  # this is the target directory
             target_size=(height, width),  # all images will be resized to 150x150
             batch_size=batch_size,
-            class_mode='binary')
+            class_mode='categorical')
 
     test_gen = ImageDataGenerator(
             rescale=1./255)
@@ -32,7 +32,7 @@ def main():
             dataset + '/test',  # this is the target directory
             target_size=(height, width),  # all images will be resized to 150x150
             batch_size=batch_size,
-            class_mode='binary')
+            class_mode='categorical')
 
 
     model.model.fit_generator( #training on train_data
