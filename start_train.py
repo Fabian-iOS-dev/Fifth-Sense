@@ -1,12 +1,14 @@
 from keras.preprocessing.image import ImageDataGenerator
-import model
 import random
+from config import Config as C
 
 random.seed(300)
-batch_size = 16
-width = 224
-height = 224
-dataset = 'ds_normal'
+
+
+if C.model == 'model_I':
+    import model_I as m
+elif C.model == 'model':
+    import model as m
 
 def main():
 
@@ -20,27 +22,27 @@ def main():
             horizontal_flip=True,)
 
     train_pics = train_gen.flow_from_directory(
-            dataset + '/train',  # this is the target directory
-            target_size=(height, width),  # all images will be resized to 150x150
-            batch_size=batch_size,
+            C.dataset + '/train',  # this is the target directory
+            target_size=(C.height, C.width),  # all images will be resized
+            batch_size=C.batch_size,
             class_mode='categorical')
 
     test_gen = ImageDataGenerator(
             rescale=1./255)
 
     test_pics = test_gen.flow_from_directory(
-            dataset + '/test',  # this is the target directory
-            target_size=(height, width),  # all images will be resized to 150x150
-            batch_size=batch_size,
+            C.dataset + '/test',  # this is the target directory
+            target_size=(C.height, C.width),  # all images will be resized to 150x150
+            batch_size=C.batch_size,
             class_mode='categorical')
 
 
-    model.model.fit_generator( #training on train_data
+    m.model.fit_generator( #training on train_data
     train_pics,
-            steps_per_epoch=944 // batch_size,
+            steps_per_epoch=944 // C.batch_size,
             epochs=10,
             validation_data=test_pics,
-            validation_steps=236 // batch_size,
+            validation_steps=236 // C.batch_size,
             )
 
     # from keras.models import load_model
