@@ -15,5 +15,5 @@ class Config:
 
     #add model in elif struct in start_train
     #model 1, model 2, model 3
-    model = 'model 2'
+    model = 'model 1'
 
