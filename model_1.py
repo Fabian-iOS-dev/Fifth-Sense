@@ -5,7 +5,7 @@ from config import Config as C
 from keras.initializers import glorot_uniform
 import random
 
-seed = random.seed(300)
+seed = random.seed(7)
 
 #custom
 
@@ -14,7 +14,7 @@ model = Sequential()
 model.add(Conv2D(16, (3, 3), input_shape=(3, C.height, C.width), data_format='channels_first'))
 model.add(Activation('relu'))
 model.add(BatchNormalization())
-model.add(MaxPooling2D(2,2))
+model.add(MaxPooling2D(pool_size=(2,2)))
 
 model.add(Conv2D(32, (3, 3)))
 model.add(Activation('relu'))
