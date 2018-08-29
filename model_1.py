@@ -1,6 +1,11 @@
 from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D, BatchNormalization, Activation, Flatten, Dropout, Dense
+from keras.optimizers import SGD
 from config import Config as C
+from keras.initializers import glorot_uniform
+import random
+
+seed = random.seed(300)
 
 #custom
 
@@ -22,11 +27,11 @@ model.add(BatchNormalization())
 model.add(MaxPooling2D(pool_size=(2, 2)))
 
 model.add(Flatten())
-model.add(Dense(64, activation='relu'))
+model.add(Dense(64, activation='relu', kernel_initializer=glorot_uniform(seed)))
 model.add(Dropout(0.5))
-model.add(Dense(output_dim=C.classes, activation='softmax'))
+model.add(Dense(output_dim=C.classes, activation='softmax', kernel_initializer=glorot_uniform(seed)))
 
-
-model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True) #try different optimizer
+model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
 model.summary()
 model.save('my_model.h5') #save model (architecture + weights + optimizer state)
