@@ -3,12 +3,12 @@ from keras.layers import Dense
 from config import Config as C
 from keras.applications.vgg16 import VGG16
 
-
+#VGG16
 
 
 
 # Generate a model with all layers (with top)
-vgg16 = VGG16(weights='imagenet', include_top=True)
+vgg16 = VGG16(weights='imagenet', include_top=True, input_shape=(3, C.height, C.width))
 
 #Add a layer where input is the output of the  second last layer
 x = Dense(C.classes, activation='softmax', name='predictions')(vgg16.layers[-2].output)
